@@ -1,4 +1,4 @@
-FROM node:lts
+FROM --platform=linux/amd64 node:lts-alpine
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -9,8 +9,9 @@ RUN npm install
 
 # Build the ts code
 COPY . .
-RUN npm run build:ts
+RUN npm run build
 
 # Run 🏃🏻‍♂️
-EXPOSE 3000
-CMD ["fastify", "start", "-l", "info", "dist/app.js"]
+ENV PORT=80
+EXPOSE ${PORT}
+CMD ["node", "dist/server.js"]
