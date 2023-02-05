@@ -31,7 +31,6 @@ on:
     branches: [ "main" ]
 
 env:
-  AWS_REGION: ap-southeast-1    # set this to your preferred AWS region, e.g. us-west-1
   ECR_REPOSITORY: sample-app    # set this to your Amazon ECR repository name
 
 permissions:
@@ -52,7 +51,7 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ env.AWS_REGION }}
+        aws-region: ${{ vars.AWS_REGION }}
 
     - name: Login to Amazon ECR
       id: login-ecr
@@ -81,8 +80,8 @@ jobs:
         region: ${{ vars.AWS_REGION }}
         cpu: 1
         memory: 2
-        port: 8080
-        wait-for-service-stability-seconds: 20
+        port: 3000
+        wait-for-service-stability-seconds: 1200
     
     - name: App Runner output
       run: echo "App runner output ${{ steps.deploy-apprunner.outputs.service-id }}"
